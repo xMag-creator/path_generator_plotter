@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <p>Machine name: {{ machine.name }}</p>
+    <p>X max range: {{ machine.x_max_range }} [mm]</p>
+    <p>Y max range: {{ machine.y_max_range }} [mm]</p>
+    <p>Z max range: {{ machine.z_max_range }} [mm]</p>
+    <p>U max range: {{ machine.u_max_range }} [degree]</p>
+    <p>U min range: {{ machine.u_min_range }} [degree]</p>
+    <p>V max range: {{ machine.v_max_range }} [degree]</p>
+    <p>V min range: {{ machine.v_min_range }} [degree]</p>
+    <p>W max range: {{ machine.w_max_range }} [degree]</p>
+    <p>W min range: {{ machine.w_min_range }} [degree]</p>
+    <p>Z push position: {{ machine.z_push_pos }} [mm]</p>
+    <p>Z jump limit: {{ machine.z_jump_lim }} [mm]</p>
+    <p>X sheet offset: {{ machine.x_sheet_offset }} [mm]</p>
+    <p>Y sheet offset: {{ machine.y_sheet_offset }} [mm]</p>
+
+{% endblock %}

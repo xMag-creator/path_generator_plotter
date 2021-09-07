@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for machine in machines %}
+        {{ machine.name }}
+    {% endfor %}
+{% endblock %}
