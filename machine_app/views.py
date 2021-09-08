@@ -12,7 +12,7 @@ class AddMachineView(CreateView):
     success_url = '/'
 
 
-class ListMachines(ListView):
+class ListMachinesView(ListView):
     model = Machine
     context_object_name = 'machines'
     template_name = 'machine_templates/list_machines.html'

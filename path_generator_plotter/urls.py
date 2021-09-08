@@ -19,6 +19,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from image_app import views as image
+from machine_app import views as machine
+from project_app import views as project
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,5 +29,19 @@ urlpatterns = [
     path('add_image/', image.AddImageView.as_view(), name='add_image'),
     path('detail_image/<int:pk>/', image.DetailImageView.as_view(), name='detail_image'),
     path('delete_image/<int:pk>/', image.DeleteImageView.as_view(), name='delete_image'),
+
+    path('list_machines', machine.ListMachinesView.as_view(), name='list_machines'),
+    path('add_machine/', machine.AddMachineView.as_view(), name='add_machine'),
+    path('detail_machine/<int:pk>/', machine.DetailMachineView.as_view(), name='detail_machine'),
+    path('delete_machine/<int:pk>/', machine.DeleteMachineView.as_view(), name='delete_machine'),
+
+    path('list_tools/', machine.ListToolsView.as_view(), name='list_tools'),
+    path('add_tool/', machine.AddToolView.as_view(), name='add_tool'),
+    path('delete_tool/<int:pk>/', machine.DeleteToolView.as_view(), name='delete_tool'),
+
+    path('list_projects/', project.ListProjectView.as_view(), name='list_projects'),
+    path('add_project/', project.AddProjectView.as_view(), name='add_project'),
+    path('detail_project/<int:pk>/', project.DetailView.as_view(), name='detail_project'),
+    path('delete_project/<int:pk>/', project.DeleteView.as_view(), name='delete_project'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

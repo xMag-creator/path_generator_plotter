@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% for project in projects %}
+         Name: {{ project.name }} | Image: {{ project.image }} | Machine: {{ project.machine }}
+    {% endfor %}
+{% endblock %}
