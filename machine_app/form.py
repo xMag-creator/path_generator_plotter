@@ -4,6 +4,7 @@ from machine_app.models import Machine, Tool
 
 
 class AddMachineForm(forms.ModelForm):
+    # form to add machine profil
     class Meta:
         model = Machine
         fields = ['name',
@@ -23,6 +24,7 @@ class AddMachineForm(forms.ModelForm):
 
 
 class AddToolForm(forms.ModelForm):
+    # form to add tool
     class Meta:
         model = Tool
         fields = ['name', 'diameter']

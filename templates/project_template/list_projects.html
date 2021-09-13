@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
+    <p><a href="{% url 'add_project' %}">Add new project</a></p>
+    <ul>
     {% for project in projects %}
-         Name: {{ project.name }} | Image: {{ project.image }} | Machine: {{ project.machine }}
+         <li>Name: {{ project.name }} | Image: {{ project.image }} | Machine: {{ project.machine }}</li>
     {% endfor %}
+    </ul>
 {% endblock %}

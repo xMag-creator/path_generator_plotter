@@ -8,6 +8,7 @@ class Tool(models.Model):
 
 
 class Machine(models.Model):
+    # model to describe machine (plotter) parameters
     name = models.CharField(max_length=64)
     # if max_range > 0 -> axis exist
     x_max_range = models.FloatField(default=100.0)
@@ -23,4 +24,7 @@ class Machine(models.Model):
     z_jump_lim = models.FloatField(default=10.0)
     x_sheet_offset = models.FloatField(default=0.0)
     y_sheet_offset = models.FloatField(default=0.0)
+
+    def __str__(self):
+        return self.name
 
