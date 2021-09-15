@@ -1,11 +1,25 @@
 <!doctype html>
 <html>
     <head><meta charset="utf-8">
-    {% load static %}</head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/base.css' %}">
+    </head>
     <body>
-        <p><img src="{% static '/images/Title.png' %}" alt="Title"></p>
-        {% block content %}
+        <div id="title-div">
+            <span id="title">Path Plotter Generator</span>
+        </div>
+        <div id="middle">
+            <div id="menu">
+                <a class="menuButton" href="{% url 'list_projects' %}">Projects list</a>
+                <a class="menuButton" href="{% url 'list_machines' %}">Machines list</a>
+                <a class="menuButton" href="{% url 'list_tools' %}">Tools list</a>
+                <a class="menuButton" href="{% url 'list_images' %}">Images list</a>
+            </div>
+            <div id="main-content">
+                {% block content %}
 
-        {% endblock %}
+                {% endblock %}
+            </div>
+        </div>
     </body>
 </html>
