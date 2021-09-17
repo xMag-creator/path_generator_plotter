@@ -1,9 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/project/style.css' %}">
 {% block content %}
-    <p><a href="{% url 'add_project' %}">Add new project</a></p>
+    <div>
+        <a href="{% url 'add_project' %}">Add new project</a>
+    </div>
     <ul>
+    <div>
     {% for project in projects %}
          <li>Name: {{ project.name }} | Image: {{ project.image }} | Machine: {{ project.machine }}</li>
     {% endfor %}
     </ul>
+    </div>
 {% endblock %}
