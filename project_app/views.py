@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, DetailView
 
@@ -13,6 +13,12 @@ class AddProjectView(CreateView):
     form_class = AddProjectForm
     template_name = 'project_template/add_project.html'
     success_url = reverse_lazy('list_projects')
+
+    def post(self, request, *args, **kwargs):
+        super(AddProjectView, self).post(request)
+        self.object.g_code = self.object.generate_g_code()
+        self.object.save()
+        return redirect(self.get_success_url())
 
 
 class ListProjectView(ListView):
@@ -34,4 +40,3 @@ class DetailProjectView(DetailView):
     model = Project
     context_object_name = 'project'
     template_name = 'project_template/detail_project.html'
-

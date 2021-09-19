@@ -1,13 +1,17 @@
 from PIL import Image, ImagePalette
 
 
-def load_image(image):
+def load_image(image_path):
     # Load image then return tuple with pixel matrix and image size.
-    with Image.open('25_2.png') as image:
+    with Image.open(image_path) as image:
         image_matrix = image.load()
         image_size = image.size
 
     return image_matrix, image_size
+
+
+def calculate_resolution(image_width, image_size):
+    return round(image_width/image_size[0], 5)
 
 
 def order_image_by_colors(image_matrix, image_size):
@@ -188,11 +192,12 @@ def generate_gcode(paths):
     return g_code
 
 
-def convert_image_to_path(image_path, resolution):
+def convert_image_to_path(image_path, width):
     # Get image with settings data and return g-code.
     tuple_data = load_image(image_path)
     image_matrix = tuple_data[0]
     image_size = tuple_data[1]
+    resolution = calculate_resolution(width, image_size)
     paths = order_image_by_colors(image_matrix, image_size)
     paths = detect_y_stripes(paths)
     paths = simplicity_stripes(paths)
@@ -203,6 +208,3 @@ def convert_image_to_path(image_path, resolution):
     g_code = generate_gcode(paths)
 
     return g_code
-
-
-print(convert_image_to_path('25_2.png', 0.4))
