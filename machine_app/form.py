@@ -27,4 +27,4 @@ class AddToolForm(forms.ModelForm):
     # form to add tool
     class Meta:
         model = Tool
-        fields = ['name', 'diameter']
+        fields = ['name', 'diameter', 'color']
