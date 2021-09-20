@@ -1,14 +1,22 @@
 {% extends 'base.html' %}
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'styles/project/style.css' %}">
 {% block content %}
-    <div>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/project/style.css' %}">
+    <div id="content_menu">
         <a href="{% url 'add_project' %}">Add new project</a>
     </div>
-    <ul>
     <div>
+    <ul id="project_list">
     {% for project in projects %}
-         <li>Name: {{ project.name }} | Image: {{ project.image }} | Machine: {{ project.machine }}</li>
+        <li>
+            <div id="row">
+                <div class="name">{{ project.name }}</div>
+                <div id="buttons">
+                    <a class="menuButton row_button" href="{% url 'list_projects' %}">Edit</a>
+                    <a class="menuButton row_button" href="{% url 'delete_project' pk=project.id %}">Delete</a>
+                </div>
+            </div>
+        </li>
     {% endfor %}
     </ul>
     </div>

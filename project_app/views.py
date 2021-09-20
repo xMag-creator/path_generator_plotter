@@ -15,10 +15,10 @@ class AddProjectView(CreateView):
     success_url = reverse_lazy('list_projects')
 
     def post(self, request, *args, **kwargs):
-        super(AddProjectView, self).post(request)
+        response = super(AddProjectView, self).post(request)
         self.object.g_code = self.object.generate_g_code()
         self.object.save()
-        return redirect(self.get_success_url())
+        return response
 
 
 class ListProjectView(ListView):

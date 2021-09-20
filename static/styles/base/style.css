@@ -1,16 +1,8 @@
-body {
-    display: inline-flex;
-    flex-direction: column;
-    align-content: center;
-}
-#title-div {
-    display: inline-flex;
-    justify-content: center;
-}
 #title {
-    font-size: 50px;
+	text-align: center;
+    font-size: 80px;
     color: crimson;
-    border: 10px crimson;
+    border: 10px solid crimson;
     padding-bottom: 10px;
 }
 
@@ -29,7 +21,6 @@ body {
 }
 
 .menuButton {
-	box-shadow: 0px 10px 14px -7px #276873;
 	background-color:#b0b359;
 	border-radius:8px;
 	display:inline-block;
@@ -43,6 +34,7 @@ body {
 	text-shadow:0px 1px 0px #3d768a;
     margin: 10px;
 }
+
 .menuButton:hover {
 	background-color:#e3d72b;
 }
