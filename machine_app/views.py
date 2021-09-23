@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DeleteView, DetailView
+from django.views.generic import CreateView, ListView, DeleteView, DetailView, UpdateView
 from machine_app.models import Machine, Tool
 from machine_app.form import AddMachineForm, AddToolForm
 
@@ -35,6 +35,14 @@ class DeleteMachineView(DeleteView):
     success_url = reverse_lazy('list_machines')
 
 
+class EditMachineView(UpdateView):
+    model = Machine
+    form_class = AddMachineForm
+    context_object_name = 'machine'
+    template_name = 'machine_templates/edit_machine.html'
+    success_url = reverse_lazy('list_machines')
+
+
 class AddToolView(CreateView):
     # view to adding tool
     model = Tool
@@ -54,4 +62,12 @@ class DeleteToolView(DeleteView):
     # view to confirm delete tool
     model = Tool
     template_name = 'machine_templates/delete_tool.html'
+    success_url = reverse_lazy('list_tools')
+
+
+class EditToolView(UpdateView):
+    model = Tool
+    form_class = AddToolForm
+    context_object_name = 'tool'
+    template_name = 'machine_templates/edit_tool.html'
     success_url = reverse_lazy('list_tools')

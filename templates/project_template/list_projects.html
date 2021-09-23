@@ -10,9 +10,9 @@
     {% for project in projects %}
         <li>
             <div id="row">
-                <div class="name">{{ project.name }}</div>
+                <div class="name"><a href="{% url 'detail_project' pk=project.id %}">{{ project.name }}</a></div>
                 <div id="buttons">
-                    <a class="menuButton row_button" href="{% url 'list_projects' %}">Edit</a>
+                    <a class="menuButton row_button" href="{% url 'edit_project' pk=project.id %}">Edit</a>
                     <a class="menuButton row_button" href="{% url 'delete_project' pk=project.id %}">Delete</a>
                 </div>
             </div>

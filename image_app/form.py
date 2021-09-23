@@ -8,3 +8,10 @@ class AddImageForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = ['name', 'path']
+
+
+class EditImageForm(forms.ModelForm):
+    # form to add image
+    class Meta:
+        model = Image
+        fields = ['name', ]

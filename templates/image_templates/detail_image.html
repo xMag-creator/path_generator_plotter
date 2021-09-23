@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     <p>Image name: {{ image.name }}</p>
+    <p>Image width: {{ image.width }} [px]</p>
+    <p>Image height: {{ image.height }} [px]</p>
     <p><img src="{{ image.path.url }}"></p>
 {% endblock %}

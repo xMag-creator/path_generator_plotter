@@ -1,0 +1,37 @@
+#content_menu {
+
+}
+
+#project_list {
+    list-style: none;
+}
+
+.name {
+    padding-right: 100px;
+}
+
+#row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-family: "Andale Mono";
+    font-size: 25px;
+    padding: 5px;
+    margin: 10px;
+    border: 2px solid #276873;
+    border-radius: 8px;
+}
+
+.row_button {
+    background-color: dodgerblue;
+    box-shadow: none;
+    font-family: "Andale Mono";
+    font-size: 15px;
+    padding:5px 15px;
+    margin: 0px;
+}
+
+.row_button:hover {
+	background-color: crimson;
+}

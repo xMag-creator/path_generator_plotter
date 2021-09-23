@@ -16,8 +16,11 @@ class Machine(models.Model):
     name = models.CharField(max_length=64)
     # if max_range > 0 -> axis exist
     x_max_range = models.FloatField(default=100.0)
+    x_min_range = models.FloatField(default=0)
     y_max_range = models.FloatField(default=100.0)
+    y_min_range = models.FloatField(default=0)
     z_max_range = models.FloatField(default=100.0)
+    z_min_range = models.FloatField(default=0)
     u_max_range = models.FloatField(default=0.0)
     u_min_range = models.FloatField(default=0.0)
     v_max_range = models.FloatField(default=0.0)

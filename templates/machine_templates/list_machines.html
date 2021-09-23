@@ -1,6 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/machine/style.css' %}">
+    <div id="content_menu">
+        <a href="{% url 'add_machine' %}">Add new machine</a>
+    </div>
+    <div>
+    <ul id="project_list">
     {% for machine in machines %}
-        {{ machine.name }}
+        <li>
+            <div id="row">
+                <div class="name"><a href="{% url 'detail_machine' pk=machine.id %}">{{ machine.name }}</a></div>
+                <div id="buttons">
+                    <a class="menuButton row_button" href="{% url 'edit_machine' pk=machine.id %}">Edit</a>
+                    <a class="menuButton row_button" href="{% url 'delete_machine' pk=machine.id %}">Delete</a>
+                </div>
+            </div>
+        </li>
     {% endfor %}
+    </ul>
+    </div>
 {% endblock %}

@@ -23,5 +23,15 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
+    def calculate_resolution(self):
+        return round(self.image_size / self.image.width, 5)
+
     def generate_g_code(self):
-        return convert_image_to_path(self.image.path, self.image_size)
+        return convert_image_to_path(self.image.path,
+                                     self.resolution,
+                                     self.tool.diameter,
+                                     self.image_position_x,
+                                     self.image_position_y,
+                                     self.machine.z_push_pos,
+                                     self.machine.z_jump_lim,
+                                     )

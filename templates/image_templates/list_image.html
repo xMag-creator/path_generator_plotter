@@ -1,6 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/image/style.css' %}">
+    <div id="content_menu">
+        <a href="{% url 'add_image' %}">Add new image</a>
+    </div>
+    <div>
+    <ul id="project_list">
     {% for image in images %}
-        {{ image.name }}
+        <li>
+            <div id="row">
+                <div class="name"><a href="{% url 'detail_image' pk=image.id %}">{{ image.name }}</a></div>
+                <div id="buttons">
+                    <a class="menuButton row_button" href="{% url 'edit_image' pk=image.id %}">Edit</a>
+                    <a class="menuButton row_button" href="{% url 'delete_image' pk=image.id %}">Delete</a>
+                </div>
+            </div>
+        </li>
     {% endfor %}
+    </ul>
+    </div>
 {% endblock %}

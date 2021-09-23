@@ -1,6 +1,23 @@
 {% extends 'base.html' %}
 {% block content %}
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/machine/style.css' %}">
+    <div id="content_menu">
+        <a href="{% url 'add_tool' %}">Add new tool</a>
+    </div>
+    <div>
+    <ul id="project_list">
     {% for tool in tools %}
-        Name: {{ tool.name }} | Diameter: {{ tool.diameter }}
+        <li>
+            <div id="row">
+                <div class="name">{{ tool.name }}</div>
+                <div id="buttons">
+                    <a class="menuButton row_button" href="{% url 'edit_tool' pk=tool.id %}">Edit</a>
+                    <a class="menuButton row_button" href="{% url 'delete_tool' pk=tool.id %}">Delete</a>
+                </div>
+            </div>
+        </li>
     {% endfor %}
+    </ul>
+    </div>
 {% endblock %}

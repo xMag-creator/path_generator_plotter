@@ -10,10 +10,6 @@ def load_image(image_path):
     return image_matrix, image_size
 
 
-def calculate_resolution(image_width, image_size):
-    return round(image_width/image_size[0], 5)
-
-
 def order_image_by_colors(image_matrix, image_size):
     # order image pixel by color 
     color_palette = []
@@ -120,25 +116,104 @@ def convert_paths_to_real(paths, resolution):
     return paths
 
 
-def create_blob_contour(paths):
+def create_blob_contour(paths, tool_diameter, resolution):
     # create contours from blobs
     new_paths = []
+    
+    def calculate_option_one(pos, next_pos, diameter, res_dis):
+        if pos['y'] > next_pos['y']:
+            pos['x'] = pos['x'] - (diameter - res_dis / 2)
+        elif pos['y'] < next_pos['y']:
+            pos['x'] = pos['x'] + (diameter - res_dis / 2)
 
-    for path in paths:
-        new_path = []
-        for blob in path['path']:
-            border = []
-            for stripe in blob:
-                new_stripe = stripe[0].copy()
-                border.append(new_stripe)
+        pos['y'] = pos['y'] + (diameter - res_dis / 2)
+        return pos.copy()
 
-            for stripe in reversed(blob):
-                new_stripe = stripe[1].copy()
-                border.append(new_stripe)
+    def calculate_option_two(pos, next_pos, diameter, res_dis):
+        if pos['y'] > next_pos['y']:
+            pos['x'] = pos['x'] + (diameter - res_dis / 2)
+        elif pos['y'] < next_pos['y']:
+            pos['x'] = pos['x'] - (diameter - res_dis / 2)
 
-            new_path_constr = {'border': border, 'blob': blob}
-            new_path.append(new_path_constr.copy())
-        new_paths.append({'color': path['color'], 'path': new_path})
+        pos['y'] = pos['y'] - (diameter - res_dis / 2)
+        return pos.copy()
+
+    if tool_diameter == resolution:
+        for path in paths:
+            new_path = []
+            for blob in path['path']:
+                border = []
+                for stripe in blob:
+                    new_stripe = stripe[0].copy()
+                    border.append(new_stripe)
+
+                for stripe in reversed(blob):
+                    new_stripe = stripe[1].copy()
+                    border.append(new_stripe)
+
+                new_path_constr = {'border': border, 'blob': blob}
+                new_path.append(new_path_constr.copy())
+            new_paths.append({'color': path['color'], 'path': new_path})
+
+    elif tool_diameter > resolution:
+        for path in paths:
+            new_path = []
+            for blob in path['path']:
+                border = []
+                    
+                for i in range(len(blob)):
+                    point = blob[i][0].copy()
+                    if i != len(blob)-1:
+                        next_point = blob[i+1][0].copy()
+                    else:
+                        next_point = {'y': -1.0}
+
+                    point = calculate_option_one(point, next_point, tool_diameter, resolution)
+                    border.append(point)
+
+                for i in range(len(blob)-1, -1, -1):
+                    point = blob[i][0].copy()
+                    if i != 0:
+                        next_point = blob[i-1][0].copy()
+                    else:
+                        next_point = {'y': -1.0}
+
+                    point = calculate_option_two(point, next_point, tool_diameter, resolution)
+                    border.append(point)
+
+                new_path_constr = {'border': border, 'blob': blob}
+                new_path.append(new_path_constr.copy())
+            new_paths.append({'color': path['color'], 'path': new_path})
+
+    else:
+        for path in paths:
+            new_path = []
+            for blob in path['path']:
+                border = []
+
+                for i in range(len(blob)):
+                    point = blob[i][0].copy()
+                    if i != len(blob) - 1:
+                        next_point = blob[i + 1][0].copy()
+                    else:
+                        next_point = {'y': -1.0}
+
+                    point = calculate_option_two(point, next_point, tool_diameter, resolution)
+                    border.append(point)
+
+                for i in range(len(blob) - 1, -1, -1):
+                    point = blob[i][0].copy()
+                    if i != 0:
+                        next_point = blob[i - 1][0].copy()
+                    else:
+                        next_point = {'y': -1.0}
+
+                    point = calculate_option_one(point, next_point, tool_diameter, resolution)
+                    border.append(point)
+
+                new_path_constr = {'border': border, 'blob': blob}
+                new_path.append(new_path_constr.copy())
+            new_paths.append({'color': path['color'], 'path': new_path})
 
     paths = new_paths
     return paths
@@ -162,7 +237,7 @@ def create_blob_infill(paths):
     return paths
 
 
-def generate_gcode(paths):
+def generate_gcode(paths, push, z_jump, x_offset, y_offset):
     # generate g-code from paths structure
     g_code = ''
     n_row = 0
@@ -170,20 +245,20 @@ def generate_gcode(paths):
     for path in paths:
         for area in path['path']:
             n_row += 1
-            g_code += f"N{n_row} G01 Z10 F500\n"
+            g_code += f"N{n_row} G01 Z{z_jump} F500\n"
             n_row += 1
-            g_code += f"N{n_row} G01 X{area['border'][0]['x']} Y{area['border'][0]['y']} Z10 F500\n"
+            g_code += f"N{n_row} G01 X{area['border'][0]['x'] + x_offset} Y{area['border'][0]['y'] + y_offset} Z{z_jump} F500\n"
             n_row += 1
-            g_code += f"N{n_row} G01 X{area['border'][0]['x']} Y{area['border'][0]['y']} Z0 F500\n"
+            g_code += f"N{n_row} G01 X{area['border'][0]['x'] + x_offset} Y{area['border'][0]['y'] + y_offset} Z{push} F500\n"
             for border in area['border']:
                 n_row += 1
-                g_code += f"N{n_row} G01 X{border['x']} Y{border['y']} Z0 F500\n"
+                g_code += f"N{n_row} G01 X{border['x'] + x_offset} Y{border['y'] + y_offset} Z{push} F500\n"
             n_row += 1
-            g_code += f"N{n_row} G01 X{area['border'][0]['x']} Y{area['border'][0]['y']} Z0 F500\n"
+            g_code += f"N{n_row} G01 X{area['border'][0]['x'] + x_offset} Y{area['border'][0]['y'] + y_offset} Z{push} F500\n"
 
             for infill in area['infill']:
                 n_row += 1
-                g_code += f"N{n_row} G01 X{infill['x']} Y{infill['y']} Z0 F500\n"
+                g_code += f"N{n_row} G01 X{infill['x'] + x_offset} Y{infill['y'] + y_offset} Z{push} F500\n"
         n_row += 1
         g_code += f"N{n_row} M01\n"
     g_code += f'N{n_row+1} M30\n'
@@ -192,19 +267,21 @@ def generate_gcode(paths):
     return g_code
 
 
-def convert_image_to_path(image_path, width):
+def convert_image_to_path(image_path, resolution, tool_diameter, x_offset, y_offset, push_pos, z_jump_lim):
     # Get image with settings data and return g-code.
     tuple_data = load_image(image_path)
     image_matrix = tuple_data[0]
     image_size = tuple_data[1]
-    resolution = calculate_resolution(width, image_size)
     paths = order_image_by_colors(image_matrix, image_size)
     paths = detect_y_stripes(paths)
     paths = simplicity_stripes(paths)
     paths = detect_blobs(paths)
     paths = convert_paths_to_real(paths, resolution)
-    paths = create_blob_contour(paths)
+    paths = create_blob_contour(paths, tool_diameter, resolution)
     paths = create_blob_infill(paths)
-    g_code = generate_gcode(paths)
+    g_code = generate_gcode(paths, push_pos, z_jump_lim, x_offset, y_offset)
 
     return g_code
+
+
+convert_image_to_path('media/images/25_2.png', 0.5, 1, 0, 0, 0, 20)
