@@ -46,8 +46,8 @@ class AddProjectForm(forms.ModelForm):
 
     def clean(self):
         # checking is image fit in to work area
+        # h_image_size = Project.calculate_resolution(Project) * self.image.height
         cleaned_data = super(AddProjectForm, self).clean()
-        h_image_size = self.calculate_resolution() * self.image.height
 
         totally_out_of_area(cleaned_data.get('image_position_x'), cleaned_data.get('sheet_width'))
         totally_out_of_area(cleaned_data.get('image_position_y'), cleaned_data.get('sheet_height'))
@@ -55,4 +55,4 @@ class AddProjectForm(forms.ModelForm):
         little_out_of_area(cleaned_data.get('sheet_width'),
                            cleaned_data.get('image_position_x'),
                            cleaned_data.get('image_size'))
-        little_out_of_area(cleaned_data.get('sheet_height'), cleaned_data.get('image_position_y'), h_image_size)
+        # little_out_of_area(cleaned_data.get('sheet_height'), cleaned_data.get('image_position_y'), h_image_size)

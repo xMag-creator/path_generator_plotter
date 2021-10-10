@@ -122,20 +122,20 @@ def create_blob_contour(paths, tool_diameter, resolution):
     
     def calculate_option_one(pos, next_pos, diameter, res_dis):
         if pos['y'] > next_pos['y']:
-            pos['x'] = pos['x'] - (diameter - res_dis / 2)
+            pos['x'] = pos['x'] - (diameter / 2 - res_dis / 2)
         elif pos['y'] < next_pos['y']:
-            pos['x'] = pos['x'] + (diameter - res_dis / 2)
+            pos['x'] = pos['x'] + (diameter / 2 - res_dis / 2)
 
-        pos['y'] = pos['y'] + (diameter - res_dis / 2)
+        pos['y'] = pos['y'] + (diameter / 2 - res_dis / 2)
         return pos.copy()
 
     def calculate_option_two(pos, next_pos, diameter, res_dis):
         if pos['y'] > next_pos['y']:
-            pos['x'] = pos['x'] + (diameter - res_dis / 2)
+            pos['x'] = pos['x'] + (diameter / 2 - res_dis / 2)
         elif pos['y'] < next_pos['y']:
-            pos['x'] = pos['x'] - (diameter - res_dis / 2)
+            pos['x'] = pos['x'] - (diameter / 2 - res_dis / 2)
 
-        pos['y'] = pos['y'] - (diameter - res_dis / 2)
+        pos['y'] = pos['y'] - (diameter / 2 - res_dis / 2)
         return pos.copy()
 
     if tool_diameter == resolution:
