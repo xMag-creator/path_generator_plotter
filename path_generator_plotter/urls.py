@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from image_app import views as image
 from machine_app import views as machine
 from project_app import views as project
+from user_app import views as user
 
 urlpatterns = [
     # main urls
@@ -52,5 +53,8 @@ urlpatterns = [
     path('detail_project/<int:pk>/', project.DetailProjectView.as_view(), name='detail_project'),
     path('delete_project/<int:pk>/', project.DeleteProjectView.as_view(), name='delete_project'),
     path('edit_project/<int:pk>/', project.EditProjectView.as_view(), name='edit_project'),
+
+    # user app urls
+    path('add_user/', user.AddUserView.as_view(), name='add_user'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

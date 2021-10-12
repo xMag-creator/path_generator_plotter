@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'image_app',
     'machine_app',
     'project_app',
+    'user_app',
 
 ]
 
